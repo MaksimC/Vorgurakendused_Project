@@ -2,10 +2,11 @@
 
 
 function test_input($data) {
+    global $connection;
     $data = trim($data);
     $data = stripslashes($data);
     $data = htmlspecialchars($data);
-    $data = mysqli_real_escape_string($data);
+    $data = mysqli_real_escape_string($connection, $data);
     return $data;
 }
 
@@ -25,7 +26,7 @@ function login(){
     $errors =array();
 
     if(isset($_SESSION["user"])){
-        header("Location: ?page=loomad");
+        header("Location: ?page=warehouse");
     } else {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (empty($_POST["user"]) || empty($_POST["pass"])) {
@@ -37,16 +38,18 @@ function login(){
                 }
 
             } else {
-                $username = mysqli_real_escape_string($connection, $_POST["user"]);
-                $password = mysqli_real_escape_string($connection, $_POST["pass"]);
-                $query = "SELECT id FROM mtseljab_kylastajad WHERE username='".$username."' AND passw=sha1('".$password."')";
+                $username = test_input($_POST["user"]);
+                $password = test_input($_POST["pass"]);
+                $query = "SELECT role FROM mtseljab_wrh_users WHERE username='".$username."' AND password=/*sha1*/('".$password."')";
                 $result = mysqli_query($connection, $query) or die("Ei saanud baasi utf-8-sse - ".mysqli_error($connection));
                 $row = mysqli_fetch_assoc($result);
                 if ($row) {
                     $_SESSION["user"] = $_POST["user"];
-                    header("Location: ?page=loomad");
+                    $_SESSION["role"] = $row["role"];
+                    header("Location: ?page=warehouse");
                 } else {
                     header("Location: ?page=login");
+
                 }
             }
         }
@@ -61,6 +64,17 @@ function logout(){
     header("Location: ?");
 }
 
+function register(){
+
+}
+
+function show_warehouse(){
+
+    include_once ("views/warehouse.html");
+}
+
+
+/*
 function kuva_puurid(){
     // siia on vaja funktsionaalsust
     global $connection;
@@ -126,3 +140,4 @@ function lisa(){
     include_once('views/loomavorm.html');
 
 }
+*/
