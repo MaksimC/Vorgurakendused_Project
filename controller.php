@@ -1,7 +1,38 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: emaktse
- * Date: 14.05.2016
- * Time: 19:05
- */
+session_start();
+require_once ("functions.php");
+connect_db();
+
+$page = "start";
+if(isset($_GET["page"]) && $_GET["page"] !=""){
+    $page = htmlspecialchars($_GET["page"]);
+}
+
+include_once ("header.html");
+
+switch($page){
+    case "login":
+        login();
+        break;
+    case "logout":
+        logout();
+        break;
+    case "register":
+        register();
+        break;
+    case "create_bins":
+        create_bins();
+        break;
+    case "receipt":
+        receipt();
+        break;
+    case "stock_taking":
+        stock_taking();
+        break;
+    default:
+        include once ("start_page.html");
+        break;
+}
+include_once ("footer.html");
+
+?>
