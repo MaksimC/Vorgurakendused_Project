@@ -11,9 +11,10 @@
         <li><a href="?">Start Page</a></li>
         <?php if(isset($_SESSION["user"])): ?>
         <li><a href="?page=receipt">Goods Receipt</a></li>
+        <li><a href="?page=warehouse">Warehouse</a></li>
         <?php if ($_SESSION["role"]=="admin"): ?>
         <li><a href="?page=create_bins">Create storage bins</a></li>
-        <?php endif ?>
+        <?php endif; ?>
         <li><a href="?page=logout">Log out</a></li>
         <?php else: ?>
         <li><a href="?page=login">Log in</a></li>

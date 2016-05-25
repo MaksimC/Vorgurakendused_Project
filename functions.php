@@ -1,6 +1,5 @@
 <?php
 
-
 function test_input($data) {
     global $connection;
     $data = trim($data);
@@ -41,7 +40,7 @@ function login(){
                 $username = test_input($_POST["user"]);
                 $password = test_input($_POST["pass"]);
                 $query = "SELECT role FROM mtseljab_wrh_users WHERE username='".$username."' AND password=/*sha1*/('".$password."')";
-                $result = mysqli_query($connection, $query) or die("Ei saanud baasi utf-8-sse - ".mysqli_error($connection));
+                $result = mysqli_query($connection, $query) or die("Error when logging to DB ".mysqli_error($connection));
                 $row = mysqli_fetch_assoc($result);
                 if ($row) {
                     $_SESSION["user"] = $_POST["user"];
@@ -65,7 +64,76 @@ function logout(){
 }
 
 function register(){
+    global $connection;
+    $errors =array();
 
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (empty($_POST["user"]) || empty($_POST["pass"])) {
+            if (empty($_POST["user"])) {
+                $errors[] = "Fill in username!";
+            }
+            if (empty($POST["pass"])) {
+                $errors[] = "Please enter your password!";
+            }
+
+        } else {
+            $username = test_input($_POST["user"]);
+            $password = test_input($_POST["pass"]);
+            $user_role = test_input($_POST["role"]);
+            $query = "INSERT INTO mtseljab_wrh_users (username, password, role) VALUES ('".$username."', '".$password."', '".$user_role."')";
+            $result = mysqli_query($connection, $query) or die("Error when logging to DB ".mysqli_error($connection));
+            $row = mysqli_insert_id($connection);
+            if ($row) {
+                $_SESSION["user"] = $_POST["user"];
+                $_SESSION["role"] = $_POST["role"];
+                header("Location: ?page=warehouse");
+            } else {
+                header("Location: ?page=login");
+
+            }
+        }
+    } else {
+        header ("Location: ?page=startpage");
+    }
+
+    include_once('views/login_page.html');
+}
+
+/*
+function register1(){
+    global $connection;
+    $errors = array();
+
+    if ($_SERVER["REQUEST_METHOD"]==$_POST){
+
+        if(empty($_POST["user"])) {
+            $errors[]="Enter username for registering";
+        }
+
+        if(empty($_POST["user"])) {
+            $errors[]="Enter password for registering";
+        }
+
+        if(empty($errors)){
+            $username = test_input($_POST["user"]);
+            $password = test_input($_POST["pass"]);
+            $user_role = test_input($_POST["role"]);
+            $query = "INSERT INTO mtseljab_wrh_users (username, password, role) VALUES ('".$username."', '".$password."', '".$user_role."')";
+            $result = mysqli_query($connection, $query) or die("Error when writing to DB ".mysqli_error($connection));
+            $row = mysqli_insert_id($connection);
+            if($row){
+                $_SESSION["role"] = $_POST["role"];
+                $_SESSION["user"] = $_POST["user"];
+                header ("Location: ?page=warehouse");
+            }else {
+                header("Location: ?page=login");
+            }
+        }
+    } else {
+        header ("Location: ?page=startpage");
+    }
+    include_once('views/login.html');
 }
 
 function show_warehouse(){
@@ -74,7 +142,7 @@ function show_warehouse(){
 }
 
 
-/*
+
 function kuva_puurid(){
     // siia on vaja funktsionaalsust
     global $connection;
