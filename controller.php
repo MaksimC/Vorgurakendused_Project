@@ -8,7 +8,7 @@ if(isset($_GET["page"]) && $_GET["page"] !=""){
     $page = htmlspecialchars($_GET["page"]);
 }
 
-include_once ("header.html");
+include_once ("views/header.html");
 
 switch($page){
     case "login":
@@ -29,10 +29,13 @@ switch($page){
     case "stock_taking":
         stock_taking();
         break;
+    case "warehouse":
+        show_warehouse();
+        break;
     default:
-        include once ("start_page.html");
+        include_once ("views/start_page.html");
         break;
 }
-include_once ("footer.html");
+include_once ("views/footer.html");
 
 ?>

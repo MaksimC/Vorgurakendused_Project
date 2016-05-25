@@ -1,6 +1,14 @@
 <?php
 
 
+function test_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    $data = mysqli_real_escape_string($data);
+    return $data;
+}
+
 function connect_db(){
     global $connection;
     $host="localhost";
@@ -11,8 +19,8 @@ function connect_db(){
     mysqli_query($connection, "SET CHARACTER SET UTF8") or die("Ei saanud baasi utf-8-sse - ".mysqli_error($connection));
 }
 
-function logi(){
-    // siia on vaja funktsionaalsust (13. nädalal)
+function login(){
+
     global $connection;
     $errors =array();
 
@@ -44,7 +52,7 @@ function logi(){
         }
     }
 
-    include_once('views/login.html');
+    include_once('views/login_page.html');
 }
 
 function logout(){
@@ -52,6 +60,7 @@ function logout(){
     session_destroy();
     header("Location: ?");
 }
+
 function kuva_puurid(){
     // siia on vaja funktsionaalsust
     global $connection;
