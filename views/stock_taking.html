@@ -1,10 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<div>Material: <?php echo $material_DB["material"]; ?> </div>
+<div>Bin: <?php echo $material_DB["bin"]; ?> </div>
+<div>Quantity: <?php echo $material_DB["quantity"]; ?> </div>
+<br>
 
-</body>
-</html>
+<form action="?page=stock_taking" method="POST">
+    <input type="text" name="material" placeholder="material"  value="<?php if (isset($material_DB['material'])) echo htmlspecialchars($material_DB['material']); ?>"/><br/>
+    <input type="number" name="quantity" placeholder="quantity" min="0" max="9999999" value="<?php if (isset($material_DB['quantity'])) echo htmlspecialchars($material_DB['quantity']); ?>"/><br/>
+    <input type="hidden" name="id"  value="<?php if (isset($material_DB['id'])) echo htmlspecialchars($material_DB['id']); ?>"/><br/>
+    <input type="submit" value="Adjust bin"/>
+</form>
+
+<?php if (isset($errors)):?>
+<?php foreach($errors as $error):?>
+<div style="color:red;"><?php echo htmlspecialchars($error); ?></div>
+<?php endforeach;?>
+<?php endif;?>
