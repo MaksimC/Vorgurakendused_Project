@@ -1,0 +1,42 @@
+
+<?php
+    echo ("<pre>");
+var_dump($material);
+echo ("</pre>");
+?>
+<br>
+
+<?php  echo $_GET["id"];  ?>
+<br>
+
+<?php
+    echo ("<pre>");
+var_dump($material);
+echo ("</pre>");
+?>
+<br>
+
+<?php
+    echo ("<pre>");
+echo $ids;
+echo ("</pre>");
+?>
+<br>
+
+
+<div>Material: <?php echo $material["material"]; ?> </div>
+<div>Bin: <?php echo $material["bin"]; ?> </div>
+<div>Quantity: <?php echo $material["quantity"]; ?> </div>
+<br>
+
+<form action="?page=pick" method="POST">
+    <input type="number" name="quantity" placeholder="quantity" value="<?php if (isset($material['quantity'])) echo htmlspecialchars($material['quantity']); ?>"/><br/>
+    <input type="text" name="id"  value="<?php if (isset($material['id'])) echo htmlspecialchars($material['id']); ?>"/><br/>
+    <input type="submit" value="Muuda"/>
+</form>
+
+<?php if (isset($errors)):?>
+    <?php foreach($errors as $error):?>
+        <div style="color:red;"><?php echo htmlspecialchars($error); ?></div>
+    <?php endforeach;?>
+<?php endif;?>

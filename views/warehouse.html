@@ -1,13 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<h1>WAREHOUSE</h1>
-<?php echo($_SESSION["user"]) ?>
-<?php echo($_SESSION["role"]) ?>
 
-</body>
-</html>
+<h1>WAREHOUSE STOCKS</h1>
+
+
+<table class="stocksTable">
+        <?php while($row = mysqli_fetch_assoc($result)){ ?>
+        <tr>
+                <td> <?php echo $row['bin']?> </td>
+                <td> <?php echo $row['SUT']?> </td>
+                <td> <?php echo $row['material']?> </td>
+                <td> <?php echo $row['quantity']?> </td>
+                <td> <?php echo $row['empty_indicator']?> </td>
+                <td> <a href = "?page=pick&id=<?php echo $row['id']; ?>"> Pick Materials </td>
+                <td> <a href = "?page=stock_taking&id=<?php echo $row['id']; ?>"> Inventory Adjustment</td>
+        </tr>
+
+        <?php };?>
+
+</table>

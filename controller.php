@@ -24,10 +24,13 @@ switch($page){
         create_bins();
         break;
     case "receipt":
-        receipt();
+        goods_receipt();
         break;
     case "stock_taking":
         stock_taking();
+        break;
+    case "pick":
+        pick();
         break;
     case "warehouse":
         show_warehouse();

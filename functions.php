@@ -90,7 +90,6 @@ function register(){
                 header("Location: ?page=warehouse");
             } else {
                 header("Location: ?page=login");
-
             }
         }
     } else {
@@ -100,79 +99,142 @@ function register(){
     include_once('views/login_page.html');
 }
 
-/*
-function register1(){
-    global $connection;
-    $errors = array();
-
-    if ($_SERVER["REQUEST_METHOD"]==$_POST){
-
-        if(empty($_POST["user"])) {
-            $errors[]="Enter username for registering";
-        }
-
-        if(empty($_POST["user"])) {
-            $errors[]="Enter password for registering";
-        }
-
-        if(empty($errors)){
-            $username = test_input($_POST["user"]);
-            $password = test_input($_POST["pass"]);
-            $user_role = test_input($_POST["role"]);
-            $query = "INSERT INTO mtseljab_wrh_users (username, password, role) VALUES ('".$username."', '".$password."', '".$user_role."')";
-            $result = mysqli_query($connection, $query) or die("Error when writing to DB ".mysqli_error($connection));
-            $row = mysqli_insert_id($connection);
-            if($row){
-                $_SESSION["role"] = $_POST["role"];
-                $_SESSION["user"] = $_POST["user"];
-                header ("Location: ?page=warehouse");
-            }else {
-                header("Location: ?page=login");
-            }
-        }
-    } else {
-        header ("Location: ?page=startpage");
-    }
-    include_once('views/login.html');
-}
 
 function show_warehouse(){
+
+    global $connection;
+
+    if (empty($_SESSION["user"])){
+        header ("Location: ?page=login");
+    }else{
+        $query = "SELECT id, bin, SUT, material, quantity, empty_indicator FROM mtseljab_warehouse ORDER by bin ASC";
+        $result = mysqli_query($connection, $query);
+
+    }
 
     include_once ("views/warehouse.html");
 }
 
-
-
-function kuva_puurid(){
-    // siia on vaja funktsionaalsust
+function retrieve_material($id){
     global $connection;
-    $puurid = array();
 
-
-    if(empty($_SESSION["user"])) {
-        header("Location: ?page=login");
+    $query = "SELECT id, bin, SUT, material, quantity, empty_indicator FROM mtseljab_warehouse where ID= '".$id."' " ;
+    $result = mysqli_query($connection, $query)or die("$query - ".mysqli_error($connection));
+    if ($result){
+        $material = mysqli_fetch_assoc($result);
+        return $material;
     } else {
-        $query = "SELECT DISTINCT puur FROM loomaaed_mtseljab ORDER BY puur ASC ";
-        $result = mysqli_query($connection, $query) or die("$query - " . mysqli_error($connection));
+        header("Location: ?page=start_page");
+    }
+}
 
-        if (mysqli_num_rows($result) > 0) {
-            // output data of each row
-            while ($puurinumbrid = mysqli_fetch_assoc($result)) {
-                $result_loomad = mysqli_query($connection, "SELECT * FROM loomaaed_mtseljab WHERE  puur=" . $puurinumbrid['puur']);
-                while ($loomarida = mysqli_fetch_assoc($result_loomad)) {
-                    $puurid[$puurinumbrid['puur']][] = $loomarida;
+
+function pick(){
+    global $connection;
+    $material=null;
+    //error_reporting(E_ALL & ~E_NOTICE);
+
+    if (empty($_SESSION["user"])){
+        header("Location: ?page=login");
+    }
+
+    if ($_SERVER["REQUEST_METHOD"] == "GET"){
+        $id = $_GET["id"];
+        $material = retrieve_material($id);
+
+    } else if ($_SERVER["REQUEST_METHOD"] == "POST"){
+
+        $errors=array();
+        $material = retrieve_material($_POST["id"]);
+        $quantity_new = test_input($_POST["quantity"]);
+        $quantity_upd = ($material["quantity"]) - $quantity_new;
+
+        if(empty($_POST["quantity"])) {
+            $errors[]="picking quantity is missing";
+        }
+
+        if ($quantity_new > $material["quantity"]){
+            $errors[]= "picked quantity cannot be greater than quantity in the bin";
+        }
+
+        if (empty($errors)) {
+            $id = test_input($_POST["id"]);
+
+            if ($quantity_new == $material["quantity"]){
+                $query = "UPDATE mtseljab_warehouse SET material ='', quantity=0, empty_indicator='empty' WHERE id=".$id;
+                $result = mysqli_query($connection, $query) or die("$query - ".mysqli_error($connection));
+                $id = mysqli_insert_id($connection);
+                if($id){
+                    header("Location: ?page=warehouse");
+                } else{
+                    header("Location: ?page=pick");
                 }
+            } else{
+
+                $query = "UPDATE mtseljab_warehouse SET quantity=".$quantity_upd." WHERE id=".$id;
+                $result = mysqli_query($connection, $query);
+                //$ids = mysqli_insert_id($connection);
+                if($result){
+                    header("Location: ?page=warehouse");
+                } else{
+                    header("Location: ?page=pick"/*&id=".$id*/);
+                }
+            }
+            exit(0);
+        }
+    } else {
+        header("Location: ?page=loomad");
+    }
+
+    include_once('views/pick.html');
+}
+
+
+function goods_receipt() {
+    global $connection;
+
+    if(empty($_SESSION["user"])){
+        header ("Location: ?page=login");
+    }
+
+    if ($_SERVER["REQUEST_METHOD"]== "POST"){
+        $errors=array();
+        $material = test_input($_POST["material"]);
+        $quantity = test_input($_POST["quantity"]);
+        $SUT = test_input($_POST["sut"]);
+
+        if (empty($_POST["material"])){
+            $errors[] = "Field materials cannot be empty";
+        }
+
+        if (empty($_POST["quantity"])){
+            $errors[] = "Enter Goods Receipt quantity";
+        }
+
+        if (empty($_POST["sut"])){
+            $errors[] = "Select Storage Unit Type";
+        }
+
+        if (empty($errors)){
+
+            $query = "SELECT id FROM mtseljab_warehouse WHERE SUT= ".$SUT." AND empty_indicator= 'empty' LIMIT 1";
+            $result = mysqli_query($connection, $query);
+            $bin = mysqli_fetch_assoc($result);
+            if($bin){
+
+                $query = "UPDATE mtseljab_warehouse SET material = 'TEST', quantity = 10, empty_indicator = 'full' WHERE id = 2";
+                $result = mysqli_query($connection, $query);
+                header("Location: ?page=warehouse");
+
+            } else {
+                header ("Location: ?page=receipt");
             }
         }
     }
-
-    mysqli_close($connection);
-    mysqli_free_result($result);
-    include_once('views/puurid.html');
-
-
+    include_once ("views/receipt.html");
 }
 
+/*
 function lisa(){
     // siia on vaja funktsionaalsust (13. nädalal)
     global $connection;
@@ -208,4 +270,41 @@ function lisa(){
     include_once('views/loomavorm.html');
 
 }
+
+function register1(){
+    global $connection;
+    $errors = array();
+
+    if ($_SERVER["REQUEST_METHOD"]=="POST"){
+
+        if(empty($_POST["user"])) {
+            $errors[]="Enter username for registering";
+        }
+
+        if(empty($_POST["user"])) {
+            $errors[]="Enter password for registering";
+        }
+
+        if(empty($errors)){
+            $username = test_input($_POST["user"]);
+            $password = test_input($_POST["pass"]);
+            $user_role = test_input($_POST["role"]);
+            $query = "INSERT INTO mtseljab_wrh_users (username, password, role) VALUES ('".$username."', '".$password."', '".$user_role."')";
+            $result = mysqli_query($connection, $query) or die("Error when writing to DB ".mysqli_error($connection));
+            $row = mysqli_insert_id($connection);
+            if($row){
+                $_SESSION["role"] = $_POST["role"];
+                $_SESSION["user"] = $_POST["user"];
+                header ("Location: ?page=warehouse");
+            }else {
+                header("Location: ?page=login");
+            }
+            exit(0);
+        }
+    } else {
+        header ("Location: ?page=startpage");
+    }
+    include_once('views/login.html');
+}
+
 */

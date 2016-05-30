@@ -1,0 +1,21 @@
+
+<?php  var_dump($bin)  ?>
+<pre> <?php  var_dump($_POST)  ?></pre>
+
+<form action="?page=receipt" method="POST">
+    <input type="text" name="material" placeholder="material" value="<?php if (isset($_POST['material'])) echo htmlspecialchars($_POST['material']); ?>"/><br/>
+    <input type="number" name="quantity"  placeholder="quantity" value="<?php if (isset($_POST['quantity'])) echo htmlspecialchars($_POST['quantity']); ?>"/><br/>
+    <select name="sut" id="sut">
+        <option name="pallet" id="pallet" value="pallet">Pallet</option>
+        <option name="box" id="box" value="box">Box</option>
+        <option name="bag" id="bag" value="box">Bag</option>
+    </select>
+    <input type="submit" value="Muuda"/>
+
+</form>
+
+<?php if (isset($errors)):?>
+<?php foreach($errors as $error):?>
+<div style="color:red;"><?php echo htmlspecialchars($error); ?></div>
+<?php endforeach;?>
+<?php endif;?>
