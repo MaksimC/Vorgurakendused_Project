@@ -12,6 +12,8 @@ function test_input($data) {
 function connect_db(){
     global $connection;
     $host="localhost";
+    //$user="root";
+    //$pass="";
     $user="test";
     $pass="t3st3r123";
     $db="test";
@@ -249,10 +251,10 @@ function stock_taking(){
     } else if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
         $errors = array();
-        $id = $_POST['id'];
-        $material = $_POST['material'];
+        $id = test_input($_POST['id']);
+        $material = test_input($_POST['material']);
         $material_DB = retrieve_material($id);
-        $quantity_new = $_POST['quantity'];
+        $quantity_new = test_input($_POST['quantity']);
 
         If ($quantity_new == 0) {
             $query = " UPDATE mtseljab_warehouse SET material ='', quantity = 0, empty_indicator = 'empty' WHERE id =$id ";
@@ -279,4 +281,35 @@ function stock_taking(){
     }
 
     include_once ("views/stock_taking.html");
+}
+
+function create_bins(){
+    global $connection;
+    $errors = array();
+
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
+        for ($x = 1; $x <= 3; $x++) {
+
+            $bin = $_POST["bin".$x];
+            $sut = $_POST["sut".$x];
+
+            $query = "SELECT bin FROM mtseljab_warehouse WHERE bin = '$bin' ";
+            $result = mysqli_query($connection, $query);
+            $id = mysqli_fetch_assoc($result);
+            if($id){
+                $errors[] = "Bin with this name already exists. Please choose another name.";
+            } else {
+                $query = "INSERT INTO mtseljab_warehouse (bin, SUT, empty_indicator) VALUES ('$bin', '$sut', 'empty') ";
+                $result = mysqli_query ($connection, $query);
+                $id = mysqli_insert_id($connection);
+                if($id){
+                    header ("Location: ?page=warehouse");
+                }else{
+                    $errors[]="failed to create bin";
+                }
+            }
+        }
+    }
+
+    include_once ("views/create_bins.html");
 }
