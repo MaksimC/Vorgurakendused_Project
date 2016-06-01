@@ -20,7 +20,8 @@
         <td>
             <form action="?page=delete_bins" method="POST">
                 <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
-                <input type="submit" name="delete_bin" value="Delete bin">
+                <input class="btn btn-danger btn-sm" value="X" type="submit" name="delete_bin">
+                <!--<input type="submit" name="delete_bin" value="Delete bin">-->
             </form>
         </td>
 

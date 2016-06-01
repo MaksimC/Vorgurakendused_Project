@@ -1,5 +1,5 @@
 #sisse {
-    background: url('pictures/v2rav.png') no-repeat center;
+    background: url('pictures/warehousebig.jpg') no-repeat center;
     display: inline-block;
     width: 100%;
     padding:235px 0px;
@@ -16,7 +16,7 @@ body {
     margin:0px;
 }
 #wrap{
-    width: 800px;
+    width: 1000px;
     background: white;
     margin: auto;
     overflow: auto;

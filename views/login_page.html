@@ -11,41 +11,46 @@
 
 <div id="login">
     <p id="login_form_open">
-        <button type="button">Login here</button>
+        <button class="btn btn-warning btn-lg" type="button">Login here</button>
     </p>
 
     <form id="login_form" action="?page=login" method="POST" >
 
         <p id="login_form_close">
-            <button type="button">Close Login</button>
+            <button class="btn btn-warning btn-lg" type="button">Close Login</button>
         </p>
 
-        <input type="text" name="user" id="user" placeholder="username"/><br/>
-        <input type="password" name="pass" id="password" placeholder="password"/><br/>
-        <input type="submit" id="submit_login" value="Log me in now"/>
+        <input class="form-control" type="text" name="user" id="user" placeholder="username"/><br/>
+        <input class="form-control" type="password" name="pass" id="password" placeholder="password"/><br/>
+        <input class="btn btn-primary" type="submit" id="submit_login" value="Log me in now"/>
 
     </form>
 
-<!--REGISTER-->
+    <br><br>
+
+    <!--REGISTER-->
 
     <p id="register_form_open">
-        <button type="button">Register here</button>
+        <button class="btn btn-info btn-lg" type="button">Register here</button>
     </p>
 
     <form id="register_form" action="?page=register" method="POST" >
 
         <p id="register_form_close">
-            <button type="button">Close Register</button>
+            <button class="btn btn-info btn-lg" type="button">Close Register</button>
         </p>
 
-        <input type="text" name="user" id="user_register" placeholder="username"/><br/>
-        <input type="password" name="pass" id="password_register" placeholder="password"/><br/>
+        <input class="form-control" type="text" name="user" id="user_register" placeholder="username"/><br/>
+        <input class="form-control" type="password" name="pass" id="password_register" placeholder="password"/><br/>
+
         <p>Select access level for registration</p>
-        <select name="role" id="user_role">
+        <select class="form-group" name="role" id="user_role">
             <option name="user" id="user_selection" value="user">User</option>
             <option name="admin" id="admin_selection" value="admin">Admin</option>
         </select>
-        <input type="submit" id="submit_registration" value="Register me now"/>
+        <br>
+
+        <input class="btn btn-primary" type="submit" id="submit_registration" value="Register me now"/>
 
     </form>
 

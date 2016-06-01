@@ -13,6 +13,7 @@
 </head>
 <body>
 <div id="wrap">
+    <!--
     <ul id="menu">
         <li><a href="?">Start Page</a></li>
         <?php if(isset($_SESSION["user"])): ?>
@@ -26,4 +27,44 @@
         <li><a href="?page=login">Log in</a></li>
         <?php endif; ?>
     </ul>
+    -->
     <div id="content">
+
+
+
+
+
+
+        <nav role="navigation" class="navbar navbar-default">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="#" class="navbar-brand"></a>
+            </div>
+            <!-- Collection of nav links and other content for toggling -->
+            <div id="navbarCollapse" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li ><a href="?">Home</a></li>
+                    <?php if(isset($_SESSION["user"])): ?>
+                    <li><a href="?page=receipt">Goods Receipt</a></li>
+                    <li><a href="?page=warehouse">Warehouse</a></li>
+                    <?php if ($_SESSION["role"]=="admin"): ?>
+                    <li><a href="?page=manage_wh">Manage Warehouse</a></li>
+                    <?php endif; ?>
+                    <?php endif; ?>
+
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <?php if(isset($_SESSION["user"])): ?>
+                    <li><a href="?page=logout">Log out</a></li>
+                    <?php else: ?>
+                    <li><a href="?page=login">Log in</a></li>
+                    <?php endif; ?>
+                </ul>
+            </div>
+        </nav>
