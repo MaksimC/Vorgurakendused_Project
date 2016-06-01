@@ -80,18 +80,30 @@ function register(){
             }
 
         } else {
+
             $username = test_input($_POST["user"]);
-            $password = test_input($_POST["pass"]);
-            $user_role = test_input($_POST["role"]);
-            $query = "INSERT INTO mtseljab_wrh_users (username, password, role) VALUES ('".$username."', sha1('".$password."'), '".$user_role."')";
-            $result = mysqli_query($connection, $query) or die("Error when logging to DB ".mysqli_error($connection));
-            $row = mysqli_insert_id($connection);
-            if ($row) {
-                $_SESSION["user"] = $_POST["user"];
-                $_SESSION["role"] = $_POST["role"];
-                header("Location: ?page=warehouse");
-            } else {
-                header("Location: ?page=login");
+            $query = "SELECT id FROM mtseljab_wrh_users WHERE username='$username'";
+            $result = mysqli_query($connection,$query);
+            $row = mysqli_fetch_assoc($result);
+            if($row){
+                $errors[] = "User with this name already exists, please choose another one";
+            }else{
+
+
+
+                $username = test_input($_POST["user"]);
+                $password = test_input($_POST["pass"]);
+                $user_role = test_input($_POST["role"]);
+                $query = "INSERT INTO mtseljab_wrh_users (username, password, role) VALUES ('".$username."', sha1('".$password."'), '".$user_role."')";
+                $result = mysqli_query($connection, $query) or die("Error when logging to DB ".mysqli_error($connection));
+                $row = mysqli_insert_id($connection);
+                if ($row) {
+                    $_SESSION["user"] = $_POST["user"];
+                    $_SESSION["role"] = $_POST["role"];
+                    header("Location: ?page=warehouse");
+                } else {
+                    header("Location: ?page=login");
+                }
             }
         }
     } else {
@@ -134,7 +146,7 @@ function retrieve_material($id){
 function pick(){
     global $connection;
     $material=null;
-    //error_reporting(E_ALL & ~E_NOTICE);
+    error_reporting(E_ALL & ~E_NOTICE);
 
     if (empty($_SESSION["user"])){
         header("Location: ?page=login");
@@ -163,9 +175,9 @@ function pick(){
             $id = test_input($_POST["id"]);
 
             if ($quantity_new == $material["quantity"]){
-                $query = "UPDATE mtseljab_warehouse SET material ='', quantity=0, empty_indicator='empty' WHERE id=".$id;
+                $query = "UPDATE mtseljab_warehouse SET material ='', quantity=NULL, empty_indicator='empty' WHERE id=".$id;
                 $result = mysqli_query($connection, $query) or die("$query - ".mysqli_error($connection));
-                $id = mysqli_insert_id($connection);
+                $id = mysqli_affected_rows($connection);
                 if($id){
                     header("Location: ?page=warehouse");
                 } else{
@@ -194,13 +206,13 @@ function pick(){
 
 function goods_receipt() {
     global $connection;
+    $errors=array();
 
     if(empty($_SESSION["user"])){
         header ("Location: ?page=login");
     }
 
     if ($_SERVER["REQUEST_METHOD"]== "POST"){
-        $errors=array();
         $material = test_input($_POST["material"]);
         $quantity = test_input($_POST["quantity"]);
         $SUT = test_input($_POST["sut"]);
@@ -222,14 +234,20 @@ function goods_receipt() {
             $query = "SELECT id FROM mtseljab_warehouse WHERE SUT= '$SUT' AND empty_indicator= 'empty' LIMIT 1";
             $result = mysqli_query($connection, $query);
             $bin = mysqli_fetch_assoc($result);
-            if($bin){
+            if(isset($bin['id'])){
 
                 $query = "UPDATE mtseljab_warehouse SET material = '$material', quantity = $quantity, empty_indicator = 'full' WHERE id = ".$bin["id"];
                 $result = mysqli_query($connection, $query);
-                header("Location: ?page=warehouse");
-
+                $row = mysqli_affected_rows($connection);
+                if($row>0){
+                    header("Location: ?page=warehouse");
+                }else{
+                    $errors[] = "No empty bins of this type. Please create new bins to WH";
+                    header ("Location: ?page=login");
+                }
             } else {
-                header ("Location: ?page=receipt");
+                $errors[] = "No empty bins of this type. Please create new bins WH";
+
             }
         }
     }
