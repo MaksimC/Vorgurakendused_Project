@@ -1,0 +1,31 @@
+<h1>WAREHOUSE STOCKS</h1>
+
+
+<table class="table">
+    <tr>
+        <th> Bin Location </th>
+        <th> Storage Type </th>
+        <th> Bin status </th>
+        <th> Delete bin </th>
+
+    </tr>
+
+    <?php while($row = mysqli_fetch_assoc($result)){ ?>
+    <tr>
+        <td> <?php echo $row['bin']?> </td>
+        <td> <?php echo $row['SUT']?> </td>
+        <td> <?php echo $row['empty_indicator']?> </td>
+        <td>
+            <form action="?page=delete_bins" method="POST">
+                <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                <input type="submit" name="delete_bin" value="Delete bin">
+            </form>
+        </td>
+
+
+
+    </tr>
+
+    <?php };?>
+
+</table>

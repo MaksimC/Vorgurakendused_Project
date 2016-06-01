@@ -287,6 +287,10 @@ function create_bins(){
     global $connection;
     $errors = array();
 
+    if(empty($_SESSION["user"])){
+        header ("Location: ?page=login");
+    }
+
     if($_SERVER["REQUEST_METHOD"] == "POST"){
         for ($x = 1; $x <= 3; $x++) {
 
@@ -312,4 +316,31 @@ function create_bins(){
     }
 
     include_once ("views/create_bins.html");
+}
+
+
+function delete_bins(){
+    global $connection;
+    if (empty($_SESSION["user"])){
+        header ("Location: ?page=login");
+    }else{
+        $query = "SELECT id, bin, SUT, empty_indicator FROM mtseljab_warehouse WHERE empty_indicator='empty' ORDER by bin ASC";
+        $result = mysqli_query($connection, $query);
+
+    }
+
+    if($_SERVER["REQUEST_METHOD"]=="POST") {
+        $id = test_input($_POST["id"]);
+        $query = "DELETE FROM mtseljab_warehouse  WHERE id='$id'";
+        $result = mysqli_query($connection, $query);
+        $affectedrows = mysqli_affected_rows($connection);
+        if($affectedrows){
+            header("Location: ?page=delete_bins");
+        } else {
+            header("Location: ?page=warehouse");
+        }
+
+    }
+
+    include_once ("views/delete_bins.html");
 }

@@ -35,6 +35,13 @@ switch($page){
     case "warehouse":
         show_warehouse();
         break;
+    case "excel":
+        extract_to_excel();
+        break;
+    case "delete_bins":
+        delete_bins();
+        break;
+
     default:
         include_once ("views/start_page.html");
         break;

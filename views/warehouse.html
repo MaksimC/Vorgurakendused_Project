@@ -2,18 +2,37 @@
 <h1>WAREHOUSE STOCKS</h1>
 
 
-<table class="stocksTable">
-        <?php while($row = mysqli_fetch_assoc($result)){ ?>
-        <tr>
-                <td> <?php echo $row['bin']?> </td>
-                <td> <?php echo $row['SUT']?> </td>
-                <td> <?php echo $row['material']?> </td>
-                <td> <?php echo $row['quantity']?> </td>
-                <td> <?php echo $row['empty_indicator']?> </td>
-                <td> <a href = "?page=pick&id=<?php echo $row['id']; ?>"> Pick Materials </td>
-                <td> <a href = "?page=stock_taking&id=<?php echo $row['id']; ?>"> Inventory Adjustment</td>
-        </tr>
+<table class="table">
+    <tr>
+        <th> Bin Location </th>
+        <th> Storage Type </th>
+        <th> Material </th>
+        <th> Quantity </th>
+        <th> Bin status </th>
+        <th> Picking </th>
+        <th> Inventory </th>
 
-        <?php };?>
+    </tr>
+
+    <?php while($row = mysqli_fetch_assoc($result)){ ?>
+    <tr>
+        <td> <?php echo $row['bin']?> </td>
+        <td> <?php echo $row['SUT']?> </td>
+        <td> <?php echo $row['material']?> </td>
+        <td> <?php echo $row['quantity']?> </td>
+        <td> <?php echo $row['empty_indicator']?> </td>
+        <td> <a href = "?page=pick&id=<?php echo $row['id']; ?>"> Pick Materials </td>
+        <td> <a href = "?page=stock_taking&id=<?php echo $row['id']; ?>"> Inventory Adjustment</td>
+    </tr>
+
+    <?php };?>
 
 </table>
+
+<br><br>
+
+<form action="extract_excel.php" method = "POST">
+
+    <input type="submit" name="excel" value="Export to XLS" class="btn btn-success" >
+
+</form>
