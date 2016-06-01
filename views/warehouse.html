@@ -1,7 +1,6 @@
 
 <h1>WAREHOUSE STOCKS</h1>
 
-
 <table class="table">
     <tr>
         <th> Bin Location </th>
@@ -28,7 +27,7 @@
         <td>   </td>
         <?php endif;?>
 
-        <td> <a href = "?page=stock_taking&id=<?php echo $row['id']; ?>"> Inventory Adjustment</td>
+        <td> <a href = "?page=stock_taking&id=<?php echo $row['id'];?>"> Inventory Adjustment </td>
     </tr>
 
     <?php };?>
@@ -38,7 +37,5 @@
 <br><br>
 
 <form action="extract_excel.php" method = "POST">
-
     <input type="submit" name="excel" value="Export to XLS" class="btn btn-success" >
-
 </form>

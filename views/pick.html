@@ -1,19 +1,22 @@
-
-<div>Material: <?php echo $material["material"]; ?> </div>
-<div>Bin: <?php echo $material["bin"]; ?> </div>
-<div>Quantity: <?php echo $material["quantity"]; ?> </div>
+<h1>PICKING</h1>
+<br>
+<h5>Material: <?php echo $material["material"]; ?> </h5>
+<h5>Bin: <?php echo $material["bin"]; ?> </h5>
+<h5>Available: <?php echo $material["quantity"]; ?> pcs. </h5>
 <br>
 
-<form action="?page=pick" method="POST">
-    <input type="number" name="quantity" placeholder="quantity" min="1" max="9999999" value="<?php if (isset($material['quantity'])) echo htmlspecialchars($material['quantity']); ?>"/><br/>
-    <input type="hidden" name="id"  value="<?php if (isset($material['id'])) echo htmlspecialchars($material['id']); ?>"/><br/>
-    <input type="submit" value="Muuda"/>
-</form>
+<div class="form-group" style="width: 40%">
+    <form action="?page=pick" method="POST">
+        <input class="form-control" type="number" name="quantity" required placeholder="quantity" min="1" max="9999999" value="<?php if (isset($material['quantity'])) echo htmlspecialchars($material['quantity']); ?>"/><br/>
+        <input type="hidden" name="id"  value="<?php if (isset($material['id'])) echo htmlspecialchars($material['id']); ?>"/><br/>
+        <input class="btn btn-primary" type="submit" value="Pick"/>
+    </form>
+</div>
 
 <br>
 
 <?php if (isset($errors)):?>
-    <?php foreach($errors as $error):?>
-        <div class="text-danger"><?php echo htmlspecialchars($error); ?></div>
-    <?php endforeach;?>
+<?php foreach($errors as $error):?>
+<div class="text-danger"><?php echo htmlspecialchars($error); ?></div>
+<?php endforeach;?>
 <?php endif;?>

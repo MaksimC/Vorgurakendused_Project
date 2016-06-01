@@ -1,22 +1,24 @@
-<h1 xmlns:color="http://www.w3.org/1999/xhtml">CREATE BINS</h1>
+<h1>CREATE BINS</h1>
 <br>
 
-<form action="?page=create_bins" method="POST">
+<div class="form-group" style="width: 40%">
+    <form action="?page=create_bins" method="POST">
 
-<?php for($x = 1; $x <= 3; $x++){ ?>
+        <?php for($x = 1; $x <= 3; $x++){ ?>
 
-    <input type="text" name="bin<?php echo $x?>" placeholder="bin" value="<?php if (isset($_POST['material'])) echo htmlspecialchars($_POST['material']); ?>" required/>
-    <select name="sut<?php echo $x?>" placeholder="bin type" id="sut1" required>
-        <option name="pallet" id="pallet1" value="pallet">Pallet</option>
-        <option name="box" id="box1" value="box">Box</option>
-        <option name="bag" id="bag1" value="box">Bag</option>
-    </select><br/>
+        <input class="form-control" type="text" name="bin<?php echo $x?>" placeholder="bin" value="<?php if (isset($_POST['material'])) echo htmlspecialchars($_POST['material']); ?>" required/>
+        <select class="form-control" name="sut<?php echo $x?>" placeholder="bin type" id="sut1" required>
+            <option name="pallet" id="pallet1" value="pallet">Pallet</option>
+            <option name="box" id="box1" value="box">Box</option>
+            <option name="bag" id="bag1" value="box">Bag</option>
+        </select><br/>
 
-<?php } ?>
+        <?php } ?>
 
-    <input type="submit" value="Create bins"/>
+        <input class="btn btn-primary" type="submit" value="Create bins"/>
 
-</form>
+    </form>
+</div>
 
 <br>
 <?php if (isset($errors)):?>
