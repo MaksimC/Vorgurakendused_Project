@@ -10,8 +10,10 @@
     <input type="submit" value="Adjust bin"/>
 </form>
 
+
+<br>
 <?php if (isset($errors)):?>
 <?php foreach($errors as $error):?>
-<div style="color:red;"><?php echo htmlspecialchars($error); ?></div>
+<div class="text-danger"><?php echo htmlspecialchars($error); ?></div>
 <?php endforeach;?>
 <?php endif;?>

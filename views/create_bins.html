@@ -1,5 +1,4 @@
-
-<h1>CREATE BINS</h1>
+<h1 xmlns:color="http://www.w3.org/1999/xhtml">CREATE BINS</h1>
 <br>
 
 <form action="?page=create_bins" method="POST">
@@ -19,9 +18,10 @@
 
 </form>
 
+<br>
 <?php if (isset($errors)):?>
 <?php foreach($errors as $error):?>
-<div style="color:red;"><?php echo htmlspecialchars($error); ?></div>
+<div class="text-danger"><?php echo htmlspecialchars($error); ?></div>
 <?php endforeach;?>
 <?php endif;?>
 
