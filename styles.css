@@ -49,20 +49,7 @@ body {
     width: 35%;
     margin-top:25%;
 }
-.puur {
-    border: dashed grey 2px;
-    margin:20px;
-    float:left;
-    width: 40%;
-    padding:10px;
-}
-.puur img {
-    height: 50px;
 
-}
-.puur h5 {
-    margin: 0px;
-}
 .clear {
     clear:both;
 }
