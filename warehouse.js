@@ -37,31 +37,20 @@ document.querySelector('#register_form_close button').addEventListener('click',
     });
 
 
+/*** DELETE_BINS BLOCK SCRIPT */
 
+document.querySelector('#delete_form_open button').addEventListener('click',
 
-
-/*
- Lisame vormielemendile "login_form" sĆ¼ndmuse "submit" halduri, mis ilmeb siis kui kasutaja
- kas klikib vormis asuval submit nupul vĆµi vajutab tekstikastis enter klahvi.
- */
-document.getElementById('login_form').addEventListener('submit',
-    /**
-     * KĆ¤ivitatakse vormi postitamisel. Kontrollib vormis olevaid vĆ¤Ć¤rtusi ja lisab
-     * laotabelisse uue rea valitud vĆ¤Ć¤rtusega
-     * @event
-     * @param  {Event} event SĆ¼ndmuse info
-     */
-    function (event) {
-        // loeme tekstikastidest kasutaja sisestatud andmed
-        var nimetus = document.getElementById('nimetus').value;
-        var kogus = Number(document.getElementById('kogus').value);
-
-        // kontrollime vĆ¤Ć¤rtuseid
-        if (!nimetus || kogus <= 0) {
-            alert('Vigased vĆ¤Ć¤rtused!');
-            // Katkestame tavalise submit tegevuse, vastasel korral navigeeriks brauser mujale
-            event.preventDefault();
-            return;
-        }
+    function () {
+        document.getElementById('delete_bin_div').style.display = 'block';
+        document.getElementById('delete_form_open').style.display = 'none';
     });
 
+
+
+document.querySelector('#delete_form_close button').addEventListener('click',
+
+    function () {
+        document.getElementById('delete_bin_div').style.display = 'none';
+        document.getElementById('delete_form_open').style.display = 'block';
+    });

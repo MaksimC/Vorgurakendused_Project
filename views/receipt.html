@@ -1,7 +1,4 @@
 
-<?php  var_dump($bin)  ?>
-<pre> <?php  var_dump($_POST)  ?></pre>
-
 <form action="?page=receipt" method="POST">
     <input type="text" name="material" placeholder="material" value="<?php if (isset($_POST['material'])) echo htmlspecialchars($_POST['material']); ?>"/><br/>
     <input type="number" name="quantity"  placeholder="quantity" min="1" max="9999999" value="<?php if (isset($_POST['quantity'])) echo htmlspecialchars($_POST['quantity']); ?>"/><br/>

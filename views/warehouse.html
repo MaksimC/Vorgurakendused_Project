@@ -21,7 +21,13 @@
         <td> <?php echo $row['material']?> </td>
         <td> <?php echo $row['quantity']?> </td>
         <td> <?php echo $row['empty_indicator']?> </td>
-        <td> <a href = "?page=pick&id=<?php echo $row['id']; ?>"> Pick Materials </td>
+        <?php if ($row['empty_indicator'] == 'full'): ?>
+        <td> <a href = "?page=pick&id=<?php echo $row['id']; ?>"> Pick Materials</td>
+        <?php endif;?>
+        <?php if ($row['empty_indicator'] == 'empty'): ?>
+        <td>   </td>
+        <?php endif;?>
+
         <td> <a href = "?page=stock_taking&id=<?php echo $row['id']; ?>"> Inventory Adjustment</td>
     </tr>
 

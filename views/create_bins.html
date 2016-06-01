@@ -1,6 +1,6 @@
-<!--<pre> <?php  var_dump($id)  ?> </pre>
-<pre> <?php  var_dump($_POST)  ?></pre>
-<pre> <?php  var_dump($error)  ?></pre>-->
+
+<h1>CREATE BINS</h1>
+<br>
 
 <form action="?page=create_bins" method="POST">
 
@@ -19,10 +19,12 @@
 
 </form>
 
-<a href="?page=delete_bins">Delete bins</a>
-
 <?php if (isset($errors)):?>
 <?php foreach($errors as $error):?>
 <div style="color:red;"><?php echo htmlspecialchars($error); ?></div>
 <?php endforeach;?>
 <?php endif;?>
+
+<br><br>
+
+<input class="btn btn-success" type="button" onclick="location.href='?page=manage_wh';" value="Back to WH Management" />

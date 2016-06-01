@@ -41,6 +41,9 @@ switch($page){
     case "delete_bins":
         delete_bins();
         break;
+    case "manage_wh":
+        include_once("views/manage_wh.html");
+        break;
 
     default:
         include_once ("views/start_page.html");

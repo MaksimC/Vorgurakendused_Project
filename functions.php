@@ -41,7 +41,7 @@ function login(){
             } else {
                 $username = test_input($_POST["user"]);
                 $password = test_input($_POST["pass"]);
-                $query = "SELECT role FROM mtseljab_wrh_users WHERE username='".$username."' AND password=/*sha1*/('".$password."')";
+                $query = "SELECT role FROM mtseljab_wrh_users WHERE username='".$username."' AND password=sha1('".$password."')";
                 $result = mysqli_query($connection, $query) or die("Error when logging to DB ".mysqli_error($connection));
                 $row = mysqli_fetch_assoc($result);
                 if ($row) {
@@ -83,7 +83,7 @@ function register(){
             $username = test_input($_POST["user"]);
             $password = test_input($_POST["pass"]);
             $user_role = test_input($_POST["role"]);
-            $query = "INSERT INTO mtseljab_wrh_users (username, password, role) VALUES ('".$username."', '".$password."', '".$user_role."')";
+            $query = "INSERT INTO mtseljab_wrh_users (username, password, role) VALUES ('".$username."', sha1('".$password."'), '".$user_role."')";
             $result = mysqli_query($connection, $query) or die("Error when logging to DB ".mysqli_error($connection));
             $row = mysqli_insert_id($connection);
             if ($row) {
