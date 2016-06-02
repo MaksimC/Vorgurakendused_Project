@@ -55,10 +55,12 @@ document.querySelector('#delete_form_open button').addEventListener('click',
     });
 
 
-
 document.querySelector('#delete_form_close button').addEventListener('click',
 
     function () {
         document.getElementById('delete_bin_div').style.display = 'none';
         document.getElementById('delete_form_open').style.display = 'block';
     });
+
+
+/**** TOOLTIPS SCRIPT****/
