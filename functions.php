@@ -275,7 +275,7 @@ function stock_taking(){
         $quantity_new = test_input($_POST['quantity']);
 
         If ($quantity_new == 0) {
-            $query = " UPDATE mtseljab_warehouse SET material ='', quantity = 0, empty_indicator = 'empty' WHERE id =$id ";
+            $query = " UPDATE mtseljab_warehouse SET material ='', quantity = NULL, empty_indicator = 'empty' WHERE id =$id ";
             $result = mysqli_query($connection, $query);
             if($result){
                 header("Location: ?page=warehouse");
