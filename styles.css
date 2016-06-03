@@ -39,3 +39,10 @@ body {
 .clear {
     clear:both;
 }
+
+#login_form {
+     display: none;
+ }
+#register_form {
+    display: none;
+}
