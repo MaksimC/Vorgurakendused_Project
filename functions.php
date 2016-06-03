@@ -153,7 +153,7 @@ function pick(){
     }
 
     if ($_SERVER["REQUEST_METHOD"] == "GET"){
-        $id = $_GET["id"];
+        $id = test_input($_GET["id"]);
         $material = retrieve_material($id);
 
     } else if ($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -312,8 +312,8 @@ function create_bins(){
     if($_SERVER["REQUEST_METHOD"] == "POST"){
         for ($x = 1; $x <= 3; $x++) {
 
-            $bin = $_POST["bin".$x];
-            $sut = $_POST["sut".$x];
+            $bin = test_input($_POST["bin".$x]);
+            $sut = test_input($_POST["sut".$x]);
 
             $query = "SELECT bin FROM mtseljab_warehouse WHERE bin = '$bin' ";
             $result = mysqli_query($connection, $query);
