@@ -197,7 +197,7 @@ function pick(){
             exit(0);
         }
     } else {
-        header("Location: ?page=loomad");
+        header("Location: ?page=warehouse");
     }
 
     include_once('views/pick.html');
