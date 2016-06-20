@@ -21,7 +21,7 @@
         <td> <?php echo $row['quantity']?> </td>
         <td> <?php echo $row['empty_indicator']?> </td>
         <?php if ($row['empty_indicator'] == 'full'): ?>
-        <td> <a href = "?page=pick&id=<?php echo $row['id']; ?>" data-toggle="tooltip" title="Pick materials from bin"> Pick Materials </a></td>
+            <td> <a href = "?page=pick&id=<?php echo $row['id']; ?>" data-toggle="tooltip" title="Pick materials from bin"> Pick Materials </a></td>
         <?php endif;?>
         <?php if ($row['empty_indicator'] == 'empty'): ?>
         <td>   </td>
